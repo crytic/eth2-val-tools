@@ -401,11 +401,10 @@ func selectVals(sourceMnemonic string,
 	minAcc uint64, maxAcc uint64,
 	output WalletOutput, insecure bool) error {
 	
-	valSeed := []byte(sourceMnemonic)
-	// valSeed, err := mnemonicToSeed(sourceMnemonic)
-	//if err != nil {
-	//	return err
-	//}
+	valSeed, err := mnemonicToSeed(sourceMnemonic)
+	if err != nil {
+		return err
+	}
 
 	var g errgroup.Group
 	// Try look for unassigned accounts in the wallet
@@ -564,10 +563,12 @@ func createDepositDatasCmd() *cobra.Command {
 			var genesisForkVersion common.Version
 			checkErr(genesisForkVersion.UnmarshalText([]byte(forkVersion)), "cannot decode fork version")
 
-			valSeed, err := mnemonicToSeed(validatorsMnemonic)
-			checkErr(err, "bad validator mnemonic")
-			withdrSeed, err := mnemonicToSeed(withdrawalsMnemonic)
-			checkErr(err, "bad withdrawal mnemonic")
+			valSeed := []byte(validatorsMnemonic);
+			//valSeed, err := mnemonicToSeed(validatorsMnemonic)
+			//checkErr(err, "bad validator mnemonic")
+			withdrSeed := []byte(withdrawalsMnemonic);
+			//withdrSeed, err := mnemonicToSeed(withdrawalsMnemonic)
+			//checkErr(err, "bad withdrawal mnemonic")
 
 			if asJsonList {
 				cmd.Println("[")
