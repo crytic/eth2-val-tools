@@ -400,11 +400,12 @@ func narrowedPubkey(pub string) string {
 func selectVals(sourceMnemonic string,
 	minAcc uint64, maxAcc uint64,
 	output WalletOutput, insecure bool) error {
-
-	valSeed, err := mnemonicToSeed(sourceMnemonic)
-	if err != nil {
-		return err
-	}
+	
+	valSeed := []byte(sourceMnemonic)
+	// valSeed, err := mnemonicToSeed(sourceMnemonic)
+	//if err != nil {
+	//	return err
+	//}
 
 	var g errgroup.Group
 	// Try look for unassigned accounts in the wallet
